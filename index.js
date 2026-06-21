@@ -1,4 +1,6 @@
+import mongoose from 'mongoose';
 import express from 'express';
+mongoose.connect("mongodb://localhost:27017/myDatabase")
 const e = express()
  
 e.listen(4000)
