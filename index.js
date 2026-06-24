@@ -74,4 +74,31 @@ message: "Password reset token generated",
 token: token
 })
 });
+//reset password
+e.post("/reset-password", async function (req, res) {
+    const { token, newPassword } = req.body;
+
+    const user = await User.findOne({
+
+        resetToken: token,
+        resetTokenexpire: { $gt: Date.now() }
+
+    });
+
+    if (!user) {
+        return res.send("Invalid Token");
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    user.password = hashedPassword;
+
+    user.resetToken = undefined;
+    user.resetTokenexpire = undefined;
+
+    await user.save();
+
+    res.send("Password Reset Successfully");
+
+});
 
