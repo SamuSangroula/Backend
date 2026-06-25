@@ -101,4 +101,11 @@ e.post("/reset-password", async function (req, res) {
     res.send("Password Reset Successfully");
 
 });
+//logout
+e.post("/logout", function (req, res){
+    res.send({
+        message:"Logout successfully"
+    });
+
+});
 
