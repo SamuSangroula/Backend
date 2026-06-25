@@ -12,6 +12,7 @@ console.log("Hi")
 e.use(express.json());
 
 const userSchema = new mongoose.Schema({
+name: String,
 email: String,
 password: String,
 
@@ -29,6 +30,7 @@ const { email, password } = req.body;
 const hashedPassword = await bcrypt.hash(password, 10);
 
 const user = new User({
+name,
 email,
 password: hashedPassword,
 });
@@ -38,9 +40,18 @@ await user.save();
 res.send("Registered Successfully");
 });
 
+//delete user
+e.delete("/delete", async function(req,res){
+    const { email } = req.body;
+const user =await User.deleteOne({email});
+res.send("deteted user");
+});
+
+
+
 // Login
 e.post("/login", async function (req, res) {
-const { email, password } = req.body;
+const { name, email, password } = req.body;
 
 const user = await User.findOne({ email });
 
