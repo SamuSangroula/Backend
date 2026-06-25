@@ -47,6 +47,11 @@ const user =await User.deleteOne({email});
 res.send("deteted user");
 });
 
+//get user
+e.get("/user", async function(req, res){
+    const user = await User.find();
+    res.send(user);
+});
 
 
 // Login
